@@ -11,7 +11,7 @@ CREATE TABLE calendar (
 SELECT * FROM calendar
 
 bulk insert [GuestHousesAls0885].[dbo].[calendar]
-	from 'C:\study\DATA\Portfolio\TablesHotel\calendar.csv'
+	from 'H:\data\portfolio\DataPortfolioHotel\TablesHotel\calendar.csv'
 	with
 	(
 		FIELDTERMINATOR=',',
@@ -21,6 +21,7 @@ bulk insert [GuestHousesAls0885].[dbo].[calendar]
 
 DROP TABLE calendar
 GO
+
 
 --Creating a ROOM TYPE 
 CREATE TABLE room_type (
@@ -32,7 +33,7 @@ CREATE TABLE room_type (
 );
 
 bulk insert [GuestHousesAls0885].[dbo].[room_type]
-	from 'C:\study\DATA\Portfolio\TablesHotel\room_type.csv'
+	from 'H:\data\portfolio\DataPortfolioHotel\TablesHotel\room_type.csv'
 	with
 	(
 		FIELDTERMINATOR=',',
@@ -43,6 +44,7 @@ SELECT * FROM room_type
 
 DROP TABLE room_type
 GO
+
 
 
 --creating a table ROOM
@@ -59,7 +61,7 @@ GO
 SELECT * FROM room
 
 bulk insert [GuestHousesAls0885].[dbo].room
-	from 'C:\study\DATA\Portfolio\TablesHotel\room.csv'
+	from 'H:\data\portfolio\DataPortfolioHotel\TablesHotel\room.csv'
 	with
 	(
 		FIELDTERMINATOR=',',
@@ -69,6 +71,7 @@ bulk insert [GuestHousesAls0885].[dbo].room
 
 DROP TABLE room
 GO
+
 
 --creating a table GUEST
 
@@ -85,7 +88,7 @@ GO
 SELECT * FROM guest
 
 bulk insert [GuestHousesAls0885].[dbo].guest
-	from 'C:\study\DATA\Portfolio\TablesHotel\guest.csv'
+	from 'H:\data\portfolio\DataPortfolioHotel\TablesHotel\guest.csv'
 	with
 	(
 		FIELDTERMINATOR=',',
@@ -112,7 +115,7 @@ GO
 SELECT * FROM rate
 
 bulk insert [GuestHousesAls0885].[dbo].rate
-	from 'C:\study\DATA\Portfolio\TablesHotel\rate.csv'
+	from 'H:\data\portfolio\DataPortfolioHotel\TablesHotel\rate.csv'
 	with
 	(
 		FIELDTERMINATOR=',',
@@ -122,6 +125,7 @@ bulk insert [GuestHousesAls0885].[dbo].rate
 
 DROP TABLE rate
 GO
+
 
 --creating a table BOOKING
 
@@ -133,10 +137,10 @@ CREATE TABLE booking (
 	occupants int NOT NULL,
 	room_type_requested varchar (10) NOT NULL FOREIGN KEY REFERENCES [dbo].[room_type](id),
 	nights INT,
-	arrival_time TIME
+	arrival_time TIME,
 	   	
 
-	--FOREIGN KEY (occupants, room_type_requested) REFERENCES [dbo].rate(occupancy, room_type),
+	FOREIGN KEY (occupants, room_type_requested) REFERENCES [dbo].rate(occupancy, room_type),
 	);
 GO 
 DROP TABLE booking
@@ -144,7 +148,7 @@ DROP TABLE booking
 SELECT * FROM booking
 
 bulk insert [GuestHousesAls0885].[dbo].booking
-	from 'C:\study\DATA\Portfolio\TablesHotel\booking.csv'
+	from 'H:\data\portfolio\DataPortfolioHotel\TablesHotel\booking.csv'
 	with
 	(
 		FIELDTERMINATOR=',',
@@ -171,7 +175,7 @@ GO
 SELECT * FROM extra
 
 bulk insert [GuestHousesAls0885].[dbo].extra
-	from 'C:\study\DATA\Portfolio\TablesHotel\extra.csv'
+	from 'H:\data\portfolio\DataPortfolioHotel\TablesHotel\extra.csv'
 	with
 	(
 		FIELDTERMINATOR=',',
