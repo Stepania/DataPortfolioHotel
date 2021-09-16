@@ -8,6 +8,8 @@ CREATE TABLE calendar (
 	i date NOT NULL,
 	PRIMARY KEY (i)
 );
+
+--test a calendar ,data have been inserted correctly 
 SELECT * FROM calendar
 
 bulk insert [GuestHousesAls0885].[dbo].[calendar]
@@ -21,6 +23,7 @@ bulk insert [GuestHousesAls0885].[dbo].[calendar]
 
 DROP TABLE calendar
 GO
+
 
 --Creating a ROOM TYPE 
 CREATE TABLE room_type (
@@ -39,10 +42,14 @@ bulk insert [GuestHousesAls0885].[dbo].[room_type]
 		ROWTERMINATOR='\n',
 		FIRSTROW=2
 	)
+
+--test a room_type ,data have been inserted correctly 
 SELECT * FROM room_type
+
 
 DROP TABLE room_type
 GO
+
 
 
 --creating a table ROOM
@@ -56,7 +63,7 @@ CREATE TABLE room (
 );
 GO 
 
-SELECT * FROM room
+
 
 bulk insert [GuestHousesAls0885].[dbo].room
 	from 'C:\study\DATA\Portfolio\TablesHotel\room.csv'
@@ -67,22 +74,25 @@ bulk insert [GuestHousesAls0885].[dbo].room
 		FIRSTROW=2
 	)
 
+--test a room ,data have been inserted correctly 
+SELECT * FROM room
+
 DROP TABLE room
 GO
 
---creating a table GUEST
+
+--creating a table GUEST, address is a reserved word.
+--Escaping character  " "-have been used 
 
 CREATE TABLE guest (
 	id int NOT NULL,
 	first_name varchar(15) NOT NULL,
 	last_name varchar(25) NOT NULL,
-	address varchar(50) NOT NULL,
+	"address" varchar(50) NOT NULL,
 	PRIMARY KEY (id)
 );
 GO 
 
-
-SELECT * FROM guest
 
 bulk insert [GuestHousesAls0885].[dbo].guest
 	from 'C:\study\DATA\Portfolio\TablesHotel\guest.csv'
@@ -92,6 +102,9 @@ bulk insert [GuestHousesAls0885].[dbo].guest
 		ROWTERMINATOR='\n',
 		FIRSTROW=2
 	)
+
+--test a guest ,data have been inserted correctly 
+SELECT * FROM guest
 
 DROP TABLE guest
 GO
@@ -109,7 +122,6 @@ CREATE TABLE rate (
 GO 
 
 
-SELECT * FROM rate
 
 bulk insert [GuestHousesAls0885].[dbo].rate
 	from 'C:\study\DATA\Portfolio\TablesHotel\rate.csv'
@@ -120,8 +132,13 @@ bulk insert [GuestHousesAls0885].[dbo].rate
 		FIRSTROW=2
 	)
 
+
+--test a rate ,data have been inserted correctly 
+SELECT * FROM rate
+
 DROP TABLE rate
 GO
+
 
 --creating a table BOOKING
 
@@ -133,15 +150,13 @@ CREATE TABLE booking (
 	occupants int NOT NULL,
 	room_type_requested varchar (10) NOT NULL FOREIGN KEY REFERENCES [dbo].[room_type](id),
 	nights INT,
-	arrival_time TIME
-	   	
+	--arrival time TIME is set to default hh:mm:ss[.nnnnnnn], with a time(0) have beeen chancged to hh:mm:ss
+	arrival_time TIME(0),	 
 
-	--FOREIGN KEY (occupants, room_type_requested) REFERENCES [dbo].rate(occupancy, room_type),
+	FOREIGN KEY (occupants, room_type_requested) REFERENCES [dbo].rate(occupancy, room_type),
 	);
 GO 
-DROP TABLE booking
 
-SELECT * FROM booking
 
 bulk insert [GuestHousesAls0885].[dbo].booking
 	from 'C:\study\DATA\Portfolio\TablesHotel\booking.csv'
@@ -152,23 +167,26 @@ bulk insert [GuestHousesAls0885].[dbo].booking
 		FIRSTROW=2
 	)
 
+
+--test a booking ,data have been inserted correctly
+SELECT * FROM booking
+
 DROP TABLE booking
 GO
 
 
 
---creating a table extra
+--creating a table extra,description is a reserved word. Escaping character  " "-have been used 
 
 CREATE TABLE extra (	
 	extra_id INT NOT NULL PRIMARY KEY,
 	booking_id INT NOT NULL FOREIGN KEY REFERENCES [dbo].booking(booking_id),
-	description varchar(25),
+	"description" varchar(25),
 	ammount decimal(8,2)NOT NULL
 	);
 GO 
 
 
-SELECT * FROM extra
 
 bulk insert [GuestHousesAls0885].[dbo].extra
 	from 'C:\study\DATA\Portfolio\TablesHotel\extra.csv'
@@ -178,6 +196,11 @@ bulk insert [GuestHousesAls0885].[dbo].extra
 		ROWTERMINATOR='\n',
 		FIRSTROW=2
 	)
+
+
+
+--test a extra ,data have been inserted correctly
+SELECT * FROM extra
 
 DROP TABLE extra
 GO

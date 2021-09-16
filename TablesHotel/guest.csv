@@ -75,7 +75,7 @@ id,first_name,last_name,address
 1074,Alan,Johnson,Kingston upon Hull West and Hessle
 1075,Gerald,Jones,Merthyr Tydfil and Rhymney
 1076,Graham,Jones,Hyndburn
-1077,Ian C.,Lucas,Wrexham
+1077,Ian,Lucas,Wrexham
 1078,Steve,McCabe,"Birmingham, Selly Oak"
 1079,Conor,McGinn,St Helens North
 1080,Toby,Perkins,Chesterfield
@@ -194,7 +194,7 @@ id,first_name,last_name,address
 1193,Susan,Jones,Clwyd South
 1194,Fiona,Mactaggart,Slough
 1195,Scott,Mann,North Cornwall
-1196,Doctor,Poulter,Central Suffolk and North Ipswich
+1196,,Poulter,Central Suffolk and North Ipswich
 1197,Amber,Rudd,Hastings and Rye
 1198,Mel,Stride,Central Devon
 1199,Gisela,Stuart,"Birmingham, Edgbaston"
@@ -552,7 +552,7 @@ id,first_name,last_name,address
 1551,Sheryll,Murray,South East Cornwall
 1552,Anew,Murrison,South West Wiltshire
 1553,Antoinette,Sandbach,Eddisbury
-1554,Liz,Saville Roberts,Dwyfor Meirionnydd
+1554,Liz,Saville-Roberts,Dwyfor Meirionnydd
 1555,Nicholas,Soames,Mid Sussex
 1556,Sarah,Wollaston,Totnes
 1557,Jonathan,Ashworth,Leicester South
@@ -560,7 +560,7 @@ id,first_name,last_name,address
 1559,Peter,Bottomley,Worthing West
 1560,Christopher,Chope,Christchurch
 1561,Jonathan,Djanogly,Huntingdon
-1562,Iain,Duncan Smith,Chingford and Woodford Green
+1562,Iain,Duncan-Smith,Chingford and Woodford Green
 1563,Louise,Ellman,"Liverpool, Riverside"
 1564,Alan,Haselhurst,Saffron Walden
 1565,Philip,Hollobone,Kettering
