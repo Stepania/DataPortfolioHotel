@@ -26,6 +26,40 @@ FROM [dbo].[guest] g
 INNER JOIN [dbo].[booking] b ON g.[id] = b.[guest_id]
 ORDER  BY room_type DESC
 
+--list of guests (no repeat)
+SELECT DISTINCT b.[room_type_requested] as 'room_type',
+CONCAT(g.[first_name],' ', g.[last_name]) AS 'Guest Name'
+FROM [dbo].[guest] g
+INNER JOIN [dbo].[booking] b ON g.[id] = b.[guest_id]
+ORDER  BY room_type DESC
+
+--total number of guests by room type
+SELECT (b.[room_type_requested]) as 'room_type',
+COUNT (b.[guest_id]) AS 'Total reservations'
+FROM [dbo].[booking] b
+GROUP BY b.[room_type_requested]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 --query for TOTAL number of a double room booked 
 SELECT COUNT(b.[room_type_requested]) as 'Total_Double_Rooms'
 FROM [dbo].[guest] g
