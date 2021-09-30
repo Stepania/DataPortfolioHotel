@@ -1,13 +1,15 @@
 use [GuestHouse2020]
 go
 
+
+set statistics io on
+set statistics time on 
+
 --1 querry.List the people who has booked room number 101 on 17th November 2016.
 select CONCAT(g.[first_name],' ', g.[last_name]) AS 'Guest Name'
 from [dbo].[guest] g
 INNER JOIN [dbo].[booking] b ON g.[id] = b.[guest_id]
 where b.[room_no] = 101 and b.[booking_date] = '2016-11-03'
-
-
 
 
 --2second querry.Give the booking date and the number of nights for guest 1540.
@@ -50,6 +52,9 @@ where b.[guest_id] = 1185 or b.[guest_id] = 1270
 group by b.[guest_id] 
 
 
+--Q7. Show the total amount payable by guest Ruth Cadbury for her room bookings.
+--You should JOIN to the rate table using room_type_requested and occupants.
+
 
 
 --querry8 Calculate the total bill for booking 5346 including extras!!!not correct yet 
@@ -59,9 +64,24 @@ INNER JOIN [dbo].[rate]r ON b.[room_type_requested] = r.[room_type] and b.[occup
 INNER JOIN [dbo].[extra] e ON b.[booking_id] = e.[booking_id] 
 where b.[booking_id] = 5346
 
+
+--not the most ellegant version 
+	select b.[booking_id], ((select b.[nights]*r.[amount] 
+	from [dbo].[booking] b
+	INNER JOIN [dbo].[rate]r ON b.[room_type_requested] = r.[room_type] and b.[occupants] = r.[occupancy]
+	where b.[booking_id] = 5346)
++
+	(select  SUM(e.[amount]) 
+	from [dbo].[booking] b
+	INNER JOIN [dbo].[rate]r ON b.[room_type_requested] = r.[room_type] and b.[occupants] = r.[occupancy]
+	INNER JOIN [dbo].[extra] e ON b.[booking_id] = e.[booking_id]
+	where b.[booking_id] = 5346))as 'Total '
+	from [dbo].[booking] b
+	where b.[booking_id] = 5346
+
+--to check if it is correct
 select * from booking
 where booking_id = 5346
-
 select * from extra
 where booking_id = 5346
 
@@ -76,11 +96,40 @@ left JOIN [dbo].[booking] b ON g.[id] = b.[guest_id]
 where g.[address] like '%Edinburg%' 
 group by g.[first_name], g.[last_name], g.[address]
 
-set statistics io on
-set statistics time on 
+
+
+--Q10. For each day of the week beginning 2016-11-25 show the number of bookings starting that day.
+--Be sure to show all the days of the week in the correct order.
+select count(b.[booking_id]) as 'total',(DATENAME(WEEKDAY,b.[booking_date])) as 'Booking date'
+from [dbo].[booking] b
+
+where b.[booking_date] between '2016-11-25' and DATEADD(day,6,'2016-11-25')
+group by ( b.[booking_date])
+ORDER BY (b.[booking_date])
 
 
 
+/*select b.[booking_id],(DATENAME(WEEKDAY,b.[booking_date])) as 'Booking date'
+from [dbo].[booking] b
+if (b.[booking_date] = 'Monday')
+	begin
+		select sum( b.[booking_id])
+		from [dbo].[booking] b
+	end
+
+SELECT agent_code, 
+SUM (advance_amount) 
+FROM orders 
+GROUP BY agent_code;*/
+
+
+--Q11. Show the number of guests in the hotel on the night of 2016-11-21.
+--Include all occupants who checked in that day but not those who checked out.
+
+--there are 9 on this particular day,but some people booked earlier and they are still guests 
+SELECT SUM (b.[occupants]) AS 'Total guests booked '
+FROM [dbo].[booking] b
+where b.[booking_date] = '2016-11-21'
 
 
 
@@ -98,6 +147,10 @@ where
 
 
 
+select g.[first_name], g.[last_name],g.[address] as 'Jopa'
+from [dbo].[guest] g
+--where Jopa = 'Aberavon'
+order by Jopa
 
 
 
