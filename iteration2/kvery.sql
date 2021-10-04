@@ -1,7 +1,6 @@
 use [GuestHouse2020]
 go
 
-
 set statistics io on
 set statistics time on 
 
@@ -54,8 +53,13 @@ group by b.[guest_id]
 
 --Q7. Show the total amount payable by guest Ruth Cadbury for her room bookings.
 --You should JOIN to the rate table using room_type_requested and occupants.
-
-
+select b.[guest_id] as 'guest ID', concat(g.[first_name], + ' ',+  g.[last_name]) as Customer,  sum(b.[nights]*r.[amount]) as 'total for room'
+from [dbo].[booking] b
+inner join [dbo].[guest] g on b.[guest_id]=g.[id]
+INNER JOIN [dbo].[rate]r ON b.[room_type_requested] = r.[room_type] and b.[occupants] = r.[occupancy]
+where [first_name] = 'Ruth' and
+[last_name] = 'Cadbury'
+group by b.[guest_id],g.[first_name],g.[last_name]
 
 --querry8 Calculate the total bill for booking 5346 including extras!!!not correct yet 
 select b.[booking_id] as 'booking ID',(b.[nights]*r.[amount]) as 'total for room', e.[amount] as 'total extra', (b.[nights]*r.[amount]) + e.[amount] as 'total bill'
@@ -65,7 +69,7 @@ INNER JOIN [dbo].[extra] e ON b.[booking_id] = e.[booking_id]
 where b.[booking_id] = 5346
 
 
---not the most ellegant version 
+--not the most ellegant version ,need to change for a view alter etc...
 	select b.[booking_id], ((select b.[nights]*r.[amount] 
 	from [dbo].[booking] b
 	INNER JOIN [dbo].[rate]r ON b.[room_type_requested] = r.[room_type] and b.[occupants] = r.[occupancy]
@@ -79,14 +83,15 @@ where b.[booking_id] = 5346
 	from [dbo].[booking] b
 	where b.[booking_id] = 5346
 
+
+
 --to check if it is correct
 select * from booking
 where booking_id = 5346
 select * from extra
 where booking_id = 5346
 
-
---querry9.For every guest who has the word “Edinburgh” in their address show the total number of nights booked.
+--querry 9.For every guest who has the word “Edinburgh” in their address show the total number of nights booked.
 --Be sure to include 0 for those guests who have never had a booking.
 --Show last name, first name, address and number of nights. Order by last name then first name.
 
@@ -102,56 +107,25 @@ group by g.[first_name], g.[last_name], g.[address]
 --Be sure to show all the days of the week in the correct order.
 select count(b.[booking_id]) as 'total',(DATENAME(WEEKDAY,b.[booking_date])) as 'Booking date'
 from [dbo].[booking] b
-
 where b.[booking_date] between '2016-11-25' and DATEADD(day,6,'2016-11-25')
 group by ( b.[booking_date])
 ORDER BY (b.[booking_date])
 
-
-
-/*select b.[booking_id],(DATENAME(WEEKDAY,b.[booking_date])) as 'Booking date'
-from [dbo].[booking] b
-if (b.[booking_date] = 'Monday')
-	begin
-		select sum( b.[booking_id])
-		from [dbo].[booking] b
-	end
-
-SELECT agent_code, 
-SUM (advance_amount) 
-FROM orders 
-GROUP BY agent_code;*/
-
-
 --Q11. Show the number of guests in the hotel on the night of 2016-11-21.
 --Include all occupants who checked in that day but not those who checked out.
 
---there are 9 on this particular day,but some people booked earlier and they are still guests 
-SELECT SUM (b.[occupants]) AS 'Total guests booked '
-FROM [dbo].[booking] b
-where b.[booking_date] = '2016-11-21'
-
-
+SELECT SUM([occupants])  AS 'Total'
+FROM [dbo].[booking]
+WHERE '2016-11-21' BETWEEN [booking_date] AND DATEADD(day, CASE WHEN [nights] = 1 THEN 1 ELSE [nights]-1 END, [booking_date])
 
 --Q12. List the rooms that are free on the day 25th Nov 2016.
 
 select r.[id] as 'Room ID'
 from [dbo].[room] r
-INNER JOIN [dbo].[booking] b ON r.[id] = b.[room_no]
-where 
 
---where not exists (select * FROM dbo.[booking])
---and b.[booking_date] = '2016-11-25'
-			
-
-
-
-
-select g.[first_name], g.[last_name],g.[address] as 'Jopa'
-from [dbo].[guest] g
---where Jopa = 'Aberavon'
-order by Jopa
-
-
-
+where r.[id] NOT IN (
+SELECT distinct b.[room_no] AS 'Rooms Available'
+FROM [dbo].[booking] b
+WHERE '2016-11-25' BETWEEN b.[booking_date] AND DATEADD(day, CASE WHEN b.[nights] = 1 THEN 1 ELSE [nights]-1 END, b.[booking_date])
+)
 
